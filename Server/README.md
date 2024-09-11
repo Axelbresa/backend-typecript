@@ -1,16 +1,16 @@
-# E-Commerce API
-Esta es una API para un sistema de E-Commerce que permite gestionar usuarios, productos, compras, ventas y carritos. La API está construida con Node.js, Express Y MySql
+# Equipos informáticos
+Esta aplicación permite gestionar el inventario de equipos informáticos para una empresa. La aplicación está desarrollada utilizando TypeScript y emplea una base de datos PostgreSQL o MongoDB para el almacenamiento de datos. La autenticación de usuarios se realiza mediante JSON Web Tokens (JWT) para garantizar la seguridad en el acceso a la aplicación. El front-end de la aplicación está construido con React, proporcionando una interfaz sencilla y efectiva para la gestión del inventario.
 
 # Instalación
 Clona el repositorio:
-git clone https://github.com/Axelbresa/Backend_ecomerce-poo-
+git clone https://github.com/Axelbresa/backend-typecript
 Intala las dependencias:
 
 npm install
 
 # Configura las variables de entorno:
 
-PORT=3000               
+PORT=puerto        
 DATABASE=your_database  
 USERNAME=your_username  
 PASSWORD=your_password  

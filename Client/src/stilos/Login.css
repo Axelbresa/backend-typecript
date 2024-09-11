@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.titulo-form-login{
+    color: #324fba;
+}
+
+.contenedor-form-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid black;
+  }
+  
+  .form-login-sin_cuenta {
+    margin-top: auto;
+    text-align: center;
+    background-color: #d1d5db;
+    border: 1px solid black;
+  }
+
+  .link-registrarse {
+    color: #1d4ed8; /* Azul, puedes cambiarlo a cualquier tono de azul que prefieras */
+    text-decoration: none; 
+  }
+  
+  .link-registrarse:hover {
+    text-decoration: underline; /* Opcional: añade subrayado en hover */
+  }
+
+.boton-form-login{
+    background-color: #324fba;
+    color: #d1d5db;
+    border: 1px solid rgb(46, 23, 224);
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0px 140px;
+}
+
+.boton-form-login:hover{
+    background-color: #ffffff;
+    color: #324fba;
+    cursor: pointer;
+}
+
+.input-form-login:hover{
+    background-color: rgb(216, 215, 213);
+}

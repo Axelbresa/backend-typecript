@@ -1,10 +1,9 @@
-// dbConnection.js
 import { Sequelize, Dialect } from "sequelize";
-import {DATABASE, USERNAME, PASSWORD, HOST, DIALECT} from "../config/conf.ts";
- 
+import { DATABASE, USERNAME, PASSWORD, HOST, DIALECT } from "../config/conf";
+
 const sequelize = new Sequelize(
     DATABASE as string,
-    USERNAME as string, 
+    USERNAME as string,
     PASSWORD as string,
     {
         host: HOST,
@@ -13,15 +12,14 @@ const sequelize = new Sequelize(
 );
 
 sequelize.sync({ force: true })
-.then(() => {
-    console.log("Tablas sincronizadas");
-  })
-  .catch(err => {
-    console.error("Error al sincronizar tablas:", err);
-  });
+    .then(() => {
+        console.log("Tablas sincronizadas");
+    })
+    .catch(err => {
+        console.error("Error al sincronizar tablas:", err);
+    });
 
-
-export const dbConnection = async () : Promise<void> => {
+export const dbConnection = async (): Promise<void> => {
     try {
         await sequelize.authenticate();
         console.log('Nos hemos conectado a la base de datos');

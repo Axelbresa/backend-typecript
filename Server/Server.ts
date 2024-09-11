@@ -1,19 +1,14 @@
 import express, { Application} from "express";
 import cors from 'cors'
 import morgan from "morgan";
-import { PORT } from './src/config/conf.js'
-// import productRoutes from './src/routes/productos.routes.js'
+import { PORT } from './src/config/conf'
+import { dbConnection } from "./src/db/db";
 // import userRoutes from './src/routes/user.routes.js'
-// import compraRoutes from './src/routes/compra.routes.js'
-// import ventaRoutes from './src/routes/venta.routes.js'
-// import carritoRoutes from './src/routes/carrito.routes.js'
-// import { dbConnection } from "./src/db/db.js";
-//sdsads
-//comentarios
 
-class Server {
-    private app: Application
-    private port: string | undefined
+
+export class Server {
+     app: Application
+     port: string | undefined
 
     constructor() {
         this.app = express();
@@ -26,7 +21,7 @@ class Server {
     }
 
     async dbConnect(){
-        // await dbConnection()
+        await dbConnection()
     }
 
     middlewares():void{
@@ -37,11 +32,7 @@ class Server {
 
 //Rutas
     // routes(){
-    //     this.app.use('/producto', productRoutes)
     //     this.app.use('/user', userRoutes)
-    //     this.app.use('/compra', compraRoutes)
-    //     this.app.use('/venta', ventaRoutes)
-    //     this.app.use('/carrito', carritoRoutes)
     // }
 
 //Inicializacion del servidor
@@ -51,5 +42,3 @@ class Server {
 
 }
 
-
-export default Server;

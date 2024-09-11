@@ -1,5 +1,5 @@
 // src/services/UserService.js
-import User from '../models/User_model.js';
+import User from '../models/User_model';
 
 class UserService {
   async findAll() {
