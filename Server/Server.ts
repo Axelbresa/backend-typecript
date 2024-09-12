@@ -1,10 +1,9 @@
 import express, { Application} from "express";
 import cors from 'cors'
 import morgan from "morgan";
-import { PORT } from './src/config/conf'
+import { PORT} from './src/config/conf'
 import { dbConnection } from "./src/db/db";
-// import userRoutes from './src/routes/user.routes.js'
-
+import userRoutes from './src/routes/user.routes'
 
 export class Server {
      app: Application
@@ -31,9 +30,9 @@ export class Server {
     }
 
 //Rutas
-    // routes(){
-    //     this.app.use('/user', userRoutes)
-    // }
+    routes(){
+        this.app.use('/user', userRoutes)
+    }
 
 //Inicializacion del servidor
     listen(){

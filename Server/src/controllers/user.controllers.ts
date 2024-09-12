@@ -16,7 +16,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    const user = await UserService.findById(req.params.id);
+    const user = await UserService.findById(parseInt(req.params.id));
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
@@ -35,21 +35,21 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+// export const updateUser = async (req: Request, res: Response) => {
 
-  try {
-    const user = await UserService.update(req.params.id, req.body);
-    return res.json({ message: 'Usuario actualizado', user });
-  } catch (err:any) {
-    return res.status(500).json({ message: 'Error al actualizar usuario', error: err.message });
-  }
-};
+//   try {
+//     const user = await UserService.update(req.params.id, req.body);
+//     return res.json({ message: 'Usuario actualizado', user });
+//   } catch (err:any) {
+//     return res.status(500).json({ message: 'Error al actualizar usuario', error: err.message });
+//   }
+// };
 
-export const deleteUser = async (req: Request, res: Response) => {
-  try {
-    await UserService.delete(req.params.id);
-    return res.json({ message: 'Usuario eliminado' });
-  } catch (err:any) {
-    return res.status(500).json({ message: 'Error al eliminar usuario', error: err.message });
-  }
-};
+// export const deleteUser = async (req: Request, res: Response) => {
+//   try {
+//     await UserService.delete(req.params.id);
+//     return res.json({ message: 'Usuario eliminado' });
+//   } catch (err:any) {
+//     return res.status(500).json({ message: 'Error al eliminar usuario', error: err.message });
+//   }
+// };

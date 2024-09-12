@@ -5,43 +5,43 @@ class UserService {
   async findAll() {
     try {
       return await User.findAll();
-    } catch (err) {
+    } catch (err:any) {
       throw new Error('Error al obtener usuarios: ' + err.message);
     }
   }
 
-  async findById(id) {
+  async findById(id: number) {
     try {
       return await User.findByPk(id);
-    } catch (err) {
+    } catch (err:any) {
       throw new Error('Error al obtener usuario: ' + err.message);
     }
   }
 
-  async create(userData) {
+  async create(userData: { username: string; email: string, password:string, role:number }) {
     try {
       return await User.create(userData);
-    } catch (err) {
+    } catch (err:any) {
       throw new Error('Error al crear usuario: ' + err.message);
     }
   }
 
-  async update(id, userData) {
+  async update(id:number, userData: { username: string; email: string, password:string, role:number }) {
     try {
       const user = await User.findByPk(id);
       if (!user) throw new Error('Usuario no encontrado');
       return await user.update(userData);
-    } catch (err) {
+    } catch (err:any) {
       throw new Error('Error al actualizar usuario: ' + err.message);
     }
   }
 
-  async delete(id) {
+  async delete(id:number) {
     try {
       const user = await User.findByPk(id);
       if (!user) throw new Error('Usuario no encontrado');
       return await user.destroy();
-    } catch (err) {
+    } catch (err:any) {
       throw new Error('Error al eliminar usuario: ' + err.message);
     }
   }

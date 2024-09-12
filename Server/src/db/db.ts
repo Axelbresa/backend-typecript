@@ -1,13 +1,15 @@
 import { Sequelize, Dialect } from "sequelize";
-import { DATABASE, USERNAME, PASSWORD, HOST, DIALECT } from "../config/conf";
+import { DATABASE, USERNAME, PASSWORD, HOST, DIALECT, DB_PORT } from "../config/conf";
 
 const sequelize = new Sequelize(
     DATABASE as string,
     USERNAME as string,
     PASSWORD as string,
+
     {
         host: HOST,
         dialect: DIALECT as Dialect,
+        port: parseInt(DB_PORT), 
     }
 );
 
