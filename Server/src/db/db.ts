@@ -1,16 +1,7 @@
 import { Sequelize, Dialect } from "sequelize";
-import { DATABASE, USERNAME, PASSWORD, HOST, DIALECT, DB_PORT } from "../config/conf";
+import { DATABASE_PUBLIC_URL } from "../config/conf";
 
-const sequelize = new Sequelize(
-    DATABASE as string,
-    USERNAME as string,
-    undefined,
-    {
-        host: HOST,
-        dialect: DIALECT as Dialect,
-        port: +DB_PORT
-    }
-);
+const sequelize = new Sequelize(DATABASE_PUBLIC_URL);
 
 sequelize.sync({ force: false })
     .then(() => {
