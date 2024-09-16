@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Application} from "express";
 import cors from 'cors'
 import morgan from "morgan";
@@ -16,9 +17,9 @@ export class Server {
         this.dbConnect();
 
         this.middlewares()
-        // this.routes();
+        this.routes();
     }
-
+    
     async dbConnect(){
         await dbConnection()
     }

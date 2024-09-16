@@ -18,7 +18,7 @@ class UserService {
     }
   }
 
-  async create(userData: { username: string; email: string, password:string, role:number }) {
+  async create(userData: { username: string; email: string, password:string, role:string }) {
     try {
       return await User.create(userData);
     } catch (err:any) {

@@ -4,16 +4,15 @@ import { DATABASE, USERNAME, PASSWORD, HOST, DIALECT, DB_PORT } from "../config/
 const sequelize = new Sequelize(
     DATABASE as string,
     USERNAME as string,
-    PASSWORD as string,
-
+    undefined,
     {
         host: HOST,
         dialect: DIALECT as Dialect,
-        port: parseInt(DB_PORT), 
+        port: +DB_PORT
     }
 );
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
         console.log("Tablas sincronizadas");
     })

@@ -14,7 +14,7 @@ export const userCreateValidations = [
       .isLength({ min: 6, max: 100 }).withMessage('La contraseña debe tener entre 6 y 100 caracteres'),
     body('role')
       .optional()
-      .isIn(['cliente', 'vendedor', 'admin']).withMessage('El rol debe ser uno de los siguientes: cliente, vendedor, admin'),
+      .isIn(['user', 'admin']).withMessage('El rol debe ser uno de los siguientes: user, admin'),
   ];
   
   export const userUpdateValidations = [

@@ -1,7 +1,17 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../db/db"; 
+import {user} from "../interfaces/user_interfaces"
 
-class User extends Model {}
+class User extends Model{}
+
+
+// class User extends Model <user> implements user{
+//   public id!:number
+//   public username!: string;
+//   public email!: string;
+//   public password!: string;
+//   public role!: "user" | "admin";
+// }
 
 User.init({
   username: {
@@ -18,7 +28,7 @@ User.init({
     allowNull: false,
   },
   role: {
-    type: DataTypes.ENUM("cliente", "vendedor", "admin"),
+    type: DataTypes.ENUM("cliente","admin"),
     defaultValue: "cliente",
   }
 }, {
