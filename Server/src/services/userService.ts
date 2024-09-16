@@ -18,13 +18,29 @@ class UserService {
     }
   }
 
-  async create(userData: { username: string; email: string, password:string, role:string }) {
+  async create(userData: { username: string; email: string; password: string; role: string }) {
     try {
-      return await User.create(userData);
-    } catch (err:any) {
+      // Asignar la contraseña hasheada antes de crear el usuario
+      const newUser = await User.create(userData);
+      return newUser;
+    } catch (err: any) {
       throw new Error('Error al crear usuario: ' + err.message);
     }
   }
+
+  async login(userData: { email: string; password: string }) {
+    try {
+      // Buscar el usuario en la base de datos por correo electrónico
+      const user = await User.findOne({ where: { email: userData.email } });
+      if (!user) {
+        throw new Error('Usuario no encontrado');
+      }
+      return { user };
+    } catch (err: any) {
+      throw new Error('Error en el login: ' + err.message);
+    }
+  }
+
 
   async update(id:number, userData: { username: string; email: string, password:string, role:number }) {
     try {
