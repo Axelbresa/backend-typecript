@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { PORT} from './src/config/conf'
 import { dbConnection } from "./src/db/db";
 import userRoutes from './src/routes/user.routes'
+import productoRoutes from './src/routes/producto.routes'
 
 export class Server {
      app: Application
@@ -33,6 +34,7 @@ export class Server {
 //Rutas
     routes(){
         this.app.use('/user', userRoutes)
+        this.app.use('/producto', productoRoutes)
     }
 
 //Inicializacion del servidor
