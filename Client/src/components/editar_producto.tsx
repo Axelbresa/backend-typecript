@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'; // Importar useParams
 import "../stilos/form_add_producto.css";
 
 export default function EditarProducto() {
-  const { userId, productId } = useParams(); // Obtener userId y productId desde la URL
+  const {id } = useParams(); // Obtener solo productId desde la URL
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [categoria, setCategoria] = useState('');
@@ -12,12 +12,12 @@ export default function EditarProducto() {
   const [cantidadStock, setCantidadStock] = useState('');
   const [proveedor, setProveedor] = useState('');
 
-  // Si productId existe, cargamos los datos del producto para editarlo
+  // Cargar los datos del producto para editarlo
   useEffect(() => {
-    if (productId) {
+    if (id) {
       const fetchProduct = async () => {
         try {
-          const response = await fetch(`http://localhost:3100/producto/${productId}`);
+          const response = await fetch(`http://localhost:3100/producto/${id}`);
           const data = await response.json();
           if (response.ok) {
             setNombre(data.nombre);
@@ -36,9 +36,9 @@ export default function EditarProducto() {
 
       fetchProduct();
     }
-  }, [productId]);
+  }, [id]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
 
     const producto = {
@@ -48,15 +48,11 @@ export default function EditarProducto() {
       precio,
       cantidad_stock: cantidadStock,
       proveedor,
-      userId,
     };
 
     try {
-      const method = productId ? 'POST' : 'PUT'; // Usar PUT si es actualizar
-      const url = `http://localhost:3100/producto/${productId || userId}`; // Si es actualizar usamos productId, sino userId
-
-      const response = await fetch(url, {
-        method,
+      const response = await fetch(`http://localhost:3100/producto/${id}`, {
+        method: 'PUT', // Siempre usar PUT para actualizar
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`, // Si es necesario enviar token
@@ -66,7 +62,7 @@ export default function EditarProducto() {
 
       const data = await response.json();
       if (response.ok) {
-        alert(productId ? 'Producto actualizado exitosamente' : 'Producto agregado exitosamente');
+        alert('Producto actualizado exitosamente');
       } else {
         alert(`Error: ${data.message || 'No se pudo procesar la solicitud'}`);
       }
@@ -79,9 +75,7 @@ export default function EditarProducto() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-lg w-full">
         <div className="text-center space-y-4 mb-8">
-          <h2 className="text-3xl font-bold">
-            {productId ? 'Agregar Nuevo Producto' : 'Editar producto'}
-          </h2>
+          <h2 className="text-3xl font-bold">Editar producto</h2>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="relative">
@@ -171,12 +165,9 @@ export default function EditarProducto() {
             />
           </div>
 
-          <div className="flex justify-between mt-4">
-            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded">
-              Cancelar
-            </button>
+          <div className="flex justify-end mt-4">
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-              {productId ? 'Agregar producto' : 'Actualizar Producto'}
+              Actualizar Producto
             </button>
           </div>
         </form>
