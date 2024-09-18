@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import {getProduct, createProduct, getProductById, updateProduct, deleteProduct} from '../controllers/producto.controllers';
+import { getProductos, createProducto, getProductoById, updateProducto, deleteProducto} from '../controllers/producto.controllers';
 import {validateSchema} from "../middlewares/validacionSchema"
 import {ProductAddValidations, validateUpdateProduct} from "../schema/producto_validaciones"
 
 const router = Router();
 
-router.get('/', getProduct)
+router.get('/',  getProductos)
 
-router.get('/:id',  getProductById)
+router.get('/:id',  getProductoById)
 
-router.post('/add', ProductAddValidations, validateSchema, createProduct)
+router.post('/add', ProductAddValidations, validateSchema, createProducto)
 
-router.put('/:id', validateUpdateProduct, validateSchema, updateProduct )
+router.put('/:id', validateUpdateProduct, validateSchema, updateProducto )
 
-router.delete('/:id', deleteProdut)
+router.delete('/:id', deleteProducto)
 
 export default router;
