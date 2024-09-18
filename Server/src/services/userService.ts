@@ -28,7 +28,7 @@ class UserService {
     }
   }
 
-  async login(userData: { email: string; password: string }) {
+  async login(userData: { email: string}) {
     try {
       // Buscar el usuario en la base de datos por correo electrónico
       const user = await User.findOne({ where: { email: userData.email } });
