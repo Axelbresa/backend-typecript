@@ -1,73 +1,133 @@
-import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-import "../stilos/registro.css"
+import React, { useState } from "react";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import "../stilos/registro.css";
 
 function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const navigate = useNavigate(); // Usa useNavigate
+
+  const handleRegister = async (e:any) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setErrorMessage("Las contraseñas no coinciden");
+      return;
+    }
+
+    const requestBody = {
+      username,
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3100/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setSuccessMessage("Registro exitoso");
+        setErrorMessage("");
+        // Redirige a la página de listado_productos después de un registro exitoso
+        navigate("/listado_productos");
+      } else {
+        setErrorMessage(data.message || "Error al registrar usuario");
+      }
+    } catch (error) {
+      setErrorMessage("Error de conexión con el servidor");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full grid grid-cols-1 gap-8 contenedor-form-registro">
-      <div className="space-y-6">
-      <div className="text-center space-y-4 contactanos">
-          <h2 className="text-3xl md:text-3xl font-bold titulo-form-register">
+        <form onSubmit={handleRegister} className="space-y-6">
+          <div className="text-center space-y-4 contactanos">
+            <h2 className="text-3xl md:text-3xl font-bold titulo-form-register">
               Crear una cuenta
-          </h2>
-      </div>
-        <div className="space-y-4">
-          <div className="relative">
-            <FaUser className="absolute top-1 left-2 text-gray-500" />
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 ml-7">
-              Nombre completo
-            </label>
-            <input
-              id="name"
-              placeholder="Ingrese su nombre completo"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
-            />
+            </h2>
           </div>
-          <div className="relative">
-            <FaEnvelope className="absolute top-1 left-2 text-gray-500" />
-            <label htmlFor="correo_electronico" className="block text-sm font-medium text-gray-700 ml-7">
-              Correo electrónico
-            </label>
-            <input
-              id="correo_electronico"
-              placeholder="Ingrese su correo_electronico"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
-            />
+          <div className="space-y-4">
+            <div className="relative">
+              <FaUser className="absolute top-1 left-2 text-gray-500" />
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 ml-7">
+                Username
+              </label>
+              <input
+                id="username"
+                placeholder="Ingrese su nombre completo"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
+              />
+            </div>
+            <div className="relative">
+              <FaEnvelope className="absolute top-1 left-2 text-gray-500" />
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 ml-7">
+                Correo electrónico
+              </label>
+              <input
+                id="email"
+                placeholder="Ingrese su correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
+              />
+            </div>
+            <div className="relative">
+              <FaLock className="absolute top-1 left-2 text-gray-500" />
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 ml-7">
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
+              />
+            </div>
+            <div className="relative">
+              <FaLock className="absolute top-1 left-2 text-gray-500" />
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 ml-7">
+                Confirmar contraseña
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirme su contraseña"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
+              />
+            </div>
+
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {successMessage && <p className="text-green-500">{successMessage}</p>}
+
+            <div className="contenedor-form-editar-botones">
+              <button type="submit" className="boton-form-register">
+                Registrarse
+              </button>
+            </div>
           </div>
-          <div className="relative">
-            <FaLock className="absolute top-1 left-2 text-gray-500" />
-            <label htmlFor="correo_electronico" className="block text-sm font-medium text-gray-700 ml-7">
-              Contraseña
-            </label>
-            <input
-              id="correo_electronico"
-              placeholder="Ingrese su contraseña"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
-            />
-          </div>
-          <div className="relative">
-            <FaLock className="absolute top-1 left-2 text-gray-500" />
-            <label htmlFor="correo_electronico" className="block text-sm font-medium text-gray-700 ml-7">
-              Confirmar contraseña
-            </label>
-            <input
-              id="correo_electronico"
-              placeholder="Confirma su contraseña"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
-            />
-          </div>
-         
-          
-          <div className='contenedor-form-editar-botones'>
-            <button className="boton-form-register">
-              Registrarse
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
-  )
+  );
 }
 
-export default Register
+export default Register;
