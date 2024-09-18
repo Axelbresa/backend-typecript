@@ -1,9 +1,9 @@
-import { Sequelize, Dialect } from "sequelize";
+import { Sequelize } from "sequelize";
 import { DATABASE_PUBLIC_URL } from "../config/conf";
 
 const sequelize = new Sequelize(DATABASE_PUBLIC_URL);
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
     .then(() => {
         console.log("Tablas sincronizadas");
     })

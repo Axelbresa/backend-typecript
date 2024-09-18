@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../db/db"; 
 import {user} from "../interfaces/user_interfaces"
+import Product from "./Product_model";
 
 class User extends Model{}
 
@@ -36,5 +37,17 @@ User.init({
   timestamps: true,
   sequelize,
 });
+
+// Relación uno a muchos
+User.hasMany(Product, {
+  foreignKey: 'userId',
+  as: 'productos', 
+});
+
+Product.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'usuario', 
+});
+
 
 export default User;

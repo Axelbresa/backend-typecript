@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../db/db"; 
 import {ProductAttributes} from "../interfaces/product_interface"
+import User from "./User_model"
 
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {

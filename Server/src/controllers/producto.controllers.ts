@@ -27,14 +27,24 @@ export const getProductoById = async (req: Request, res: Response) => {
 };
 
 export const createProducto = async (req: Request, res: Response) => {
-  try {
-    const productoData = req.body;
-    const producto = await ProductoService.create(productoData);
-    return res.status(201).json({ message: 'Producto creado', producto });
-  } catch (err: any) {
-    return res.status(500).json({ message: 'Error al crear el producto', error: err.message });
-  }
-};
+    try {
+      const { userId } = req.params;  // Obtiene el userId desde los parámetros
+      const productoData = req.body;
+  
+      // Verificar si el userId existe en la base de datos
+      const user = await ProductoService.findUserById(parseInt(userId));  // Método para verificar usuario
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+  
+      // Agregar el userId al productoData
+      const newProducto = await ProductoService.create({ ...productoData, userId: parseInt(userId) });
+  
+      return res.status(201).json({ message: 'Producto creado', newProducto });
+    } catch (err: any) {
+      return res.status(500).json({ message: 'Error al crear producto', error: err.message });
+    }
+  };
 
 export const updateProducto = async (req: Request, res: Response) => {
   try {

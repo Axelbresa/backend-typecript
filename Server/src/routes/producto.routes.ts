@@ -9,7 +9,7 @@ router.get('/',  getProductos)
 
 router.get('/:id',  getProductoById)
 
-router.post('/add', ProductAddValidations, validateSchema, createProducto)
+router.post('/:userId', ProductAddValidations, validateSchema, createProducto)
 
 router.put('/:id', validateUpdateProduct, validateSchema, updateProducto )
 

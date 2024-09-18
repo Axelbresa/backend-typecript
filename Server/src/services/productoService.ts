@@ -1,5 +1,6 @@
 // src/services/ProductoService.js
 import Producto from '../models/Product_model';
+import User from '../models/User_model';
 
 class ProductoService {
   async findAll() {
@@ -17,6 +18,15 @@ class ProductoService {
       throw new Error('Error al obtener producto: ' + err.message);
     }
   }
+
+  async findUserById(id: number) {
+    try {
+      return await User.findByPk(id);
+    } catch (err: any) {
+      throw new Error('Error al buscar usuario: ' + err.message);
+    }
+  }
+
 
   async create(productData: {
     nombre: string;
