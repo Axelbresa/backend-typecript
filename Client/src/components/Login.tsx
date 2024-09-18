@@ -32,11 +32,11 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Almacenar el token en la consola
-        console.log("Token:", data.token);
+        // Almacenar el token en localStorage
+        localStorage.setItem("token", data.token);
 
-        // Opcional: Almacenar el token en localStorage (si se desea)
-        // localStorage.setItem('token', data.token);
+        // Opcional: Mostrar el token en la consola
+        console.log("Token guardado:", data.token);
 
         setSuccessMessage("Inicio de sesión exitoso.");
         setErrorMessage("");

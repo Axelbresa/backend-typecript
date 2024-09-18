@@ -3,7 +3,7 @@ import { DATABASE_PUBLIC_URL } from "../config/conf";
 
 const sequelize = new Sequelize(DATABASE_PUBLIC_URL);
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
         console.log("Tablas sincronizadas");
     })

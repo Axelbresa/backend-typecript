@@ -41,7 +41,7 @@ function Register() {
         setSuccessMessage("Registro exitoso");
         setErrorMessage("");
         // Redirige a la página de listado_productos después de un registro exitoso
-        navigate("/listado_productos");
+        navigate("/login");
       } else {
         setErrorMessage(data.message || "Error al registrar usuario");
       }
