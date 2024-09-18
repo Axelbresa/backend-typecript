@@ -59,6 +59,6 @@ export const validateUpdateProduct = [
     
     body('proveedor')
       .optional()
-      .isEmail()
-      .withMessage('El proveedor debe ser una dirección de correo electrónico válida.'),
+      .isString()
+      .withMessage('El proveedor debe ser una cadena de texto.'),
   ];

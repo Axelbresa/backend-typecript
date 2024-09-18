@@ -1,14 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Nav() {
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const token = localStorage.getItem('token'); // Obtener el token del localStorage
+      
+      if (!token) {
+        // Si no hay token, redirigir a inicio de sesión
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:3100/user/info', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, // Enviar el token en la cabecera
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener el ID del usuario');
+        }
+
+        const data = await response.json();
+        setUserId(data.id); // Suponiendo que la respuesta tiene una propiedad `id`
+      } catch (error) {
+        console.error('Error:', error);
+        // Redirigir a inicio de sesión en caso de error
+        navigate('/login');
+      }
+    };
+
+    fetchUserId();
+  }, [navigate]);
 
   const handleLogout = () => {
     // Limpiar el localStorage
     localStorage.clear();
-
-    // Redirigir al usuario a la página de inicio de sesión o donde desees
+    // Redirigir al usuario a la página de inicio de sesión
     navigate('/login');
   };
 
@@ -18,9 +52,12 @@ function Nav() {
         <Link to="/listado_productos" className="text-lg hover:text-gray-400 mb-2 md:mb-0 md:mr-4">
           Listado de Productos
         </Link>
-        <Link to="/agregar_producto" className="text-lg hover:text-gray-400 mb-2 md:mb-0 md:mr-4">
-          Agregar Producto
-        </Link>
+        {/* Incluir userId en la URL solo si está disponible */}
+        {userId && (
+          <Link to={`/agregar_producto/${userId}`} className="text-lg hover:text-gray-400 mb-2 md:mb-0 md:mr-4">
+            Agregar Producto
+          </Link>
+        )}
         <button onClick={handleLogout} className="text-lg hover:text-gray-400">
           Cerrar Sesión
         </button>
