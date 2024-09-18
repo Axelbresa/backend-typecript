@@ -3,9 +3,6 @@ import sequelize from "../db/db";
 import {user} from "../interfaces/user_interfaces"
 import Product from "./Product_model";
 
-// class User extends Model{}
-
-
 class User extends Model <user> implements user{
   public id!:number
   public username!: string;
