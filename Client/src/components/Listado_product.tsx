@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Nav from './Nav';
+import { useNavigate } from 'react-router-dom'; // Para redirigir al formulario de actualización
 
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);
+  const navigate = useNavigate(); // Para navegar a la página de actualización
 
   // Función para obtener los productos del backend
   const fetchProductos = async () => {
@@ -11,8 +13,7 @@ const ListadoProductos = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          // Agregar token si es necesario
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Agregar token si es necesario
         },
       });
       const data = await response.json();
@@ -31,6 +32,34 @@ const ListadoProductos = () => {
     fetchProductos();
   }, []);  // Ejecutar solo una vez al montar el componente
 
+  // Función para manejar la redirección a la página de actualización
+  const handleUpdate = (id) => {
+    navigate(`/editar_producto/${id}`);
+  };
+
+  // Función para eliminar el producto
+  const handleDelete = async (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      try {
+        const response = await fetch(`http://localhost:3100/producto/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        });
+
+        if (response.ok) {
+          setProductos(productos.filter((producto) => producto.id !== id));
+          alert('Producto eliminado correctamente');
+        } else {
+          alert('Error al eliminar el producto');
+        }
+      } catch (error) {
+        console.error('Error al eliminar el producto:', error);
+      }
+    }
+  };
+
   return (
     <div>
       <Nav />
@@ -45,6 +74,7 @@ const ListadoProductos = () => {
               <th className="p-2 text-left">Precio</th>
               <th className="p-2 text-left">Categoria</th>
               <th className="p-2 text-left">Proveedor</th>
+              <th className="p-2 text-left">Acciones</th> {/* Nueva columna para acciones */}
             </tr>
           </thead>
           <tbody>
@@ -57,11 +87,24 @@ const ListadoProductos = () => {
                   <td className="p-2">{producto.precio}</td>
                   <td className="p-2">{producto.categoria}</td>
                   <td className="p-2">{producto.proveedor}</td>
+                  <td className="p-2">
+                    {/* Botones de actualizar y eliminar */}
+                    <button 
+                      onClick={() => handleUpdate(producto.id)} 
+                      className="mr-2 p-1 bg-blue-500 text-white rounded">
+                      Actualizar
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(producto.id)} 
+                      className="p-1 bg-red-500 text-white rounded">
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-center p-4">
+                <td colSpan="7" className="text-center p-4">
                   No hay productos disponibles.
                 </td>
               </tr>
