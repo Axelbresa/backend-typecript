@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'; 
 import "../stilos/login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -38,18 +37,29 @@ function Login() {
         // Opcional: Mostrar el token en la consola
         console.log("Token guardado:", data.token);
 
-        setSuccessMessage("Inicio de sesión exitoso.");
-        setErrorMessage("");
-        
-        // Redirigir al usuario después de iniciar sesión exitosamente
-        navigate("/listado_productos");
+        Swal.fire({
+          icon: 'success',
+          title: '¡Se iniciado con exitoso!',
+          text: 'Tu cuenta se logeado con éxito',
+          confirmButtonText: 'Continuar',
+        }).then(() => {
+            // " // Redirigir al usuario después de iniciar sesión exitosamente
+        navigate("/listado_productos");; // Redirige después de cerrar la alerta
+        });
       } else {
-        setErrorMessage(data.message || "Error al iniciar sesión");
-        setSuccessMessage("");
-      }
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.message || 'Error al iniciar session contraseña incorrecta',
+        });
+        
+      } 
     } catch (error) {
-      setErrorMessage("Error de conexión con el servidor");
-      setSuccessMessage("");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error de conexión con el servidor',
+      });
     }
   };
 
@@ -91,8 +101,6 @@ function Login() {
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-login"
               />
             </div>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            {successMessage && <p className="text-green-500">{successMessage}</p>}
             <div className="contenedor-form-editar-botones">
               <button type="submit" className="boton-form-login">
                 Iniciar sesión

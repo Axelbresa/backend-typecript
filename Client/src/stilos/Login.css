@@ -18,8 +18,9 @@
   .form-login-sin_cuenta {
     margin-top: auto;
     text-align: center;
-    background-color: #d1d5db;
-    border: 1px solid black;
+    color: black;
+    /* background-color: #d1d5db; */
+    /* border: 1px solid black; */
   }
 
   .link-registrarse {

@@ -84,7 +84,7 @@ const ListadoProductos = () => {
                   <td className="p-2">{producto.id}</td>
                   <td className="p-2">{producto.nombre}</td>
                   <td className="p-2">{producto.descripcion}</td>
-                  <td className="p-2">{producto.precio}</td>
+                  <td className="p-2">${producto.precio}</td>
                   <td className="p-2">{producto.categoria}</td>
                   <td className="p-2">{producto.proveedor}</td>
                   <td className="p-2">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'; 
 import "../stilos/registro.css";
 
 function Register() {
@@ -8,16 +9,18 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
-  const navigate = useNavigate(); // Usa useNavigate
+  const navigate = useNavigate();
 
-  const handleRegister = async (e:any) => {
+  const handleRegister = async (e: any) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setErrorMessage("Las contraseñas no coinciden");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Las contraseñas no coinciden',
+      });
       return;
     }
 
@@ -38,16 +41,29 @@ function Register() {
 
       const data = await response.json();
       if (response.ok) {
-        setSuccessMessage("Registro exitoso");
-        setErrorMessage("");
-        // Redirige a la página de listado_productos después de un registro exitoso
-        navigate("/login");
+        Swal.fire({
+          icon: 'success',
+          title: '¡Registro exitoso!',
+          text: 'Tu cuenta ha sido creada con éxito',
+          confirmButtonText: 'Continuar',
+        }).then(() => {
+          navigate("/login"); // Redirige después de cerrar la alerta
+        });
       } else {
-        setErrorMessage(data.message || "Error al registrar usuario");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.message || 'Error al registrar usuario',
+        });
       }
     } catch (error) {
-      setErrorMessage("Error de conexión con el servidor");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error de conexión con el servidor',
+      });
     }
+
   };
 
   return (
@@ -114,9 +130,6 @@ function Register() {
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 text-gray-700 focus:ring-primary focus:border-primary input-form-registro"
               />
             </div>
-
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            {successMessage && <p className="text-green-500">{successMessage}</p>}
 
             <div className="contenedor-form-editar-botones">
               <button type="submit" className="boton-form-register">
