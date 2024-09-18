@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function Nav() {
   const [userId, setUserId] = useState(null);
@@ -40,12 +41,33 @@ function Nav() {
   }, [navigate]);
 
   const handleLogout = () => {
-    // Limpiar el localStorage
-    localStorage.clear();
-    // Redirigir al usuario a la página de inicio de sesión
-    navigate('/login');
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Quieres cerrar sesión?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Limpiar el localStorage
+        localStorage.clear();
+  
+        // Redirigir al usuario a la página de inicio de sesión
+        navigate('/');
+  
+        // Mostrar mensaje de éxito
+        Swal.fire({
+          icon: 'success',
+          title: '¡Sesión cerrada!',
+          text: 'Has cerrado sesión correctamente.',
+          confirmButtonText: 'Aceptar',
+        });
+      }
+    });
   };
-
   return (
     <header className="bg-gray-800 text-white p-4">
       <nav className="flex flex-col md:flex-row md:justify-between">

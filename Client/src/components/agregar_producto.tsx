@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FaTag, FaDollarSign, FaListAlt, FaBox, FaUser } from 'react-icons/fa';
-import { useParams } from 'react-router-dom'; // Importar useParams
+import { useParams, useNavigate } from 'react-router-dom'; // Importar useParams
 import "../stilos/form_add_producto.css";
+import Swal from 'sweetalert2';
 
 export default function AgregarProducto() {
   const { userId } = useParams(); // Obtener userId desde la URL
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [categoria, setCategoria] = useState('');
@@ -15,11 +17,6 @@ export default function AgregarProducto() {
   const handleAgregarProducto = async (e:any) => {
     e.preventDefault();
 
-    // Verificar si el userId está disponible
-    // if (!userId) {
-    //   alert('Error: No se encontró el ID del usuario.');
-    //   return;
-    // }
     console.log(userId)
 
     // Crear el cuerpo de la solicitud
@@ -44,16 +41,66 @@ export default function AgregarProducto() {
       });
      
       const data = await response.json();
-console.log(data)
+      console.log(data)
+
       if (response.ok) {
-        alert('Producto agregado exitosamente');
-        // Redirigir o limpiar el formulario
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Producto agregado exitosamente',
+          confirmButtonText: 'Aceptar',
+        })
       } else {
-        alert(`Error: ${data.message || 'No se pudo agregar el producto'}`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.message || 'No se pudo agregar el producto',
+          confirmButtonText: 'Aceptar',
+        });
       }
     } catch (error) {
-      alert('Error de conexión al servidor');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error de conexión al servidor',
+        confirmButtonText: 'Aceptar',
+      });
     }
+
+  };
+
+
+  //cancelar
+   //cancelar
+   const handleCancel = () => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¿Deseas cancelar esta acción?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cancelado correctamente',
+          text: 'Has cancelado la acción exitosamente',
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          navigate('/listado_productos'); // Redirigir a la página de listado_productos
+        });
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Acción no cancelada',
+          text: 'Puedes continuar con tu tarea',
+          confirmButtonText: 'Aceptar',
+        });
+      }
+    });
   };
 
   return (
@@ -151,9 +198,13 @@ console.log(data)
           </div>
 
           <div className="flex justify-between mt-4">
-            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded">
-              Cancelar
-            </button>
+          <button
+          type="button"
+          className="bg-red-500 text-white px-4 py-2 rounded"
+          onClick={handleCancel}
+         > 
+             Cancelar
+          </button>
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
               Agregar Producto
             </button>

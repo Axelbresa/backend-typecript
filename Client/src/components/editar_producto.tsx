@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FaTag, FaDollarSign, FaListAlt, FaBox, FaUser } from 'react-icons/fa';
-import { useParams } from 'react-router-dom'; // Importar useParams
+import { useParams, useNavigate } from 'react-router-dom';
 import "../stilos/form_add_producto.css";
+import Swal from 'sweetalert2';
 
 export default function EditarProducto() {
   const {id } = useParams(); // Obtener solo productId desde la URL
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [categoria, setCategoria] = useState('');
@@ -27,16 +29,58 @@ export default function EditarProducto() {
             setCantidadStock(data.cantidad_stock);
             setProveedor(data.proveedor);
           } else {
-            alert('Error al cargar el producto');
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Error al cargar el producto',
+              confirmButtonText: 'Aceptar',
+            });
           }
         } catch (error) {
-          alert('Error de conexión al servidor');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error de conexión al servidor',
+            confirmButtonText: 'Aceptar',
+          });
         }
       };
 
       fetchProduct();
     }
   }, [id]);
+
+  //cancelar
+  const handleCancel = () => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¿Deseas cancelar esta acción?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cancelado correctamente',
+          text: 'Has cancelado la acción exitosamente',
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          navigate('/listado_productos'); // Redirigir a la página de listado_productos
+        });
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Acción no cancelada',
+          text: 'Puedes continuar con tu tarea',
+          confirmButtonText: 'Aceptar',
+        });
+      }
+    });
+  };
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
@@ -61,14 +105,32 @@ export default function EditarProducto() {
       });
 
       const data = await response.json();
+
       if (response.ok) {
-        alert('Producto actualizado exitosamente');
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Producto actualizado exitosamente',
+          confirmButtonText: 'Aceptar',
+        })
+        navigate('/listado_productos');
       } else {
-        alert(`Error: ${data.message || 'No se pudo procesar la solicitud'}`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.message || 'No se pudo procesar la solicitud',
+          confirmButtonText: 'Aceptar',
+        });
       }
     } catch (error) {
-      alert('Error de conexión al servidor');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error de conexión al servidor',
+        confirmButtonText: 'Aceptar',
+      });
     }
+
   };
 
   return (
@@ -165,7 +227,14 @@ export default function EditarProducto() {
             />
           </div>
 
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-between mt-4">
+          <button
+          type="button"
+          className="bg-red-500 text-white px-4 py-2 rounded"
+          onClick={handleCancel}
+         > 
+             Cancelar
+          </button>
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
               Actualizar Producto
             </button>

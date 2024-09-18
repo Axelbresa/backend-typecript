@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Nav from './Nav';
 import { useNavigate } from 'react-router-dom'; // Para redirigir al formulario de actualización
+import Swal from 'sweetalert2';
 
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);
@@ -50,13 +51,29 @@ const ListadoProductos = () => {
 
         if (response.ok) {
           setProductos(productos.filter((producto) => producto.id !== id));
-          alert('Producto eliminado correctamente');
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Producto eliminado correctamente',
+            confirmButtonText: 'Aceptar',
+          });
         } else {
-          alert('Error al eliminar el producto');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al eliminar el producto',
+            confirmButtonText: 'Aceptar',
+          });
         }
       } catch (error) {
         console.error('Error al eliminar el producto:', error);
-      }
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al eliminar el producto',
+          confirmButtonText: 'Aceptar',
+        });
+      } 
     }
   };
 
@@ -84,7 +101,7 @@ const ListadoProductos = () => {
                   <td className="p-2">{producto.id}</td>
                   <td className="p-2">{producto.nombre}</td>
                   <td className="p-2">{producto.descripcion}</td>
-                  <td className="p-2">${producto.precio}</td>
+                  <td className="p-2">{producto.precio}</td>
                   <td className="p-2">{producto.categoria}</td>
                   <td className="p-2">{producto.proveedor}</td>
                   <td className="p-2">
