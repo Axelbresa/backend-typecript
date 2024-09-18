@@ -28,8 +28,8 @@ export const ProductAddValidations = [
   
   body('proveedor')
     .optional()
-    .isEmail()
-    .withMessage('El proveedor debe ser una dirección de correo electrónico válida.'),
+    .isString()
+    .withMessage('El proveedor debe ser una cadena de texto valida.'),
 ];
 
 export const validateUpdateProduct = [
@@ -53,8 +53,7 @@ export const validateUpdateProduct = [
       .withMessage('El precio debe ser un número positivo.'),
     
     body('cantidad_stock')
-      .optional()
-      .isInt({ min: 0 })
+       .isInt({ min: 0 })
       .withMessage('La cantidad en stock debe ser un número entero no negativo.'),
     
     body('proveedor')

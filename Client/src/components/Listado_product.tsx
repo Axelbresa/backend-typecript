@@ -53,9 +53,10 @@ const ListadoProductos = () => {
                 <tr key={producto.id} className="border-b">
                   <td className="p-2">{producto.id}</td>
                   <td className="p-2">{producto.nombre}</td>
-                  <td className="p-2">{producto.Categoria}</td>
+                  <td className="p-2">{producto.descripcion}</td>
                   <td className="p-2">{producto.precio}</td>
-                  <td className="p-2">{producto.Proveedor}</td>
+                  <td className="p-2">{producto.categoria}</td>
+                  <td className="p-2">{producto.proveedor}</td>
                 </tr>
               ))
             ) : (
