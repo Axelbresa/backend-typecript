@@ -40,24 +40,43 @@ const ListadoProductos = () => {
 
   // Función para eliminar el producto
   const handleDelete = async (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-      try {
-        const response = await fetch(`http://localhost:3100/producto/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
-        });
-
-        if (response.ok) {
-          setProductos(productos.filter((producto) => producto.id !== id));
-          Swal.fire({
-            icon: 'success',
-            title: 'Éxito',
-            text: 'Producto eliminado correctamente',
-            confirmButtonText: 'Aceptar',
+    Swal.fire({
+      title: '¿Estás seguro de que deseas eliminar este producto?',
+      text: "No podrás revertir esta acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No, cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`http://localhost:3100/producto/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
           });
-        } else {
+  
+          if (response.ok) {
+            setProductos(productos.filter((producto) => producto.id !== id));
+            Swal.fire({
+              icon: 'success',
+              title: 'Éxito',
+              text: 'Producto eliminado correctamente',
+              confirmButtonText: 'Aceptar',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Error al eliminar el producto',
+              confirmButtonText: 'Aceptar',
+            });
+          }
+        } catch (error) {
+          console.error('Error al eliminar el producto:', error);
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -65,18 +84,17 @@ const ListadoProductos = () => {
             confirmButtonText: 'Aceptar',
           });
         }
-      } catch (error) {
-        console.error('Error al eliminar el producto:', error);
+      } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Error al eliminar el producto',
+          icon: 'info',
+          title: 'Cancelado',
+          text: 'La eliminación del producto ha sido cancelada',
           confirmButtonText: 'Aceptar',
         });
-      } 
-    }
+      }
+    });
   };
-
+  
   return (
     <div>
       <Nav />

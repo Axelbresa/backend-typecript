@@ -50,6 +50,7 @@ export default function AgregarProducto() {
           text: 'Producto agregado exitosamente',
           confirmButtonText: 'Aceptar',
         })
+        navigate('/listado_productos');
       } else {
         Swal.fire({
           icon: 'error',
