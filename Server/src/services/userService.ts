@@ -1,5 +1,6 @@
 // src/services/UserService.js
 import User from '../models/User_model';
+import {user} from "../interfaces/user_interfaces"
 
 class UserService {
   async findAll() {
@@ -18,7 +19,7 @@ class UserService {
     }
   }
 
-  async create(userData: { username: string; email: string; password: string; role: string }) {
+  async create(userData: user) {
     try {
       // Asignar la contraseña hasheada antes de crear el usuario
       const newUser = await User.create(userData);
@@ -42,7 +43,7 @@ class UserService {
   }
 
 
-  async update(id:number, userData: { username: string; email: string, password:string, role:number }) {
+  async update(id:number, userData: user) {
     try {
       const user = await User.findByPk(id);
       if (!user) throw new Error('Usuario no encontrado');

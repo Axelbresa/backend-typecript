@@ -1,6 +1,7 @@
 // src/services/ProductoService.js
 import Producto from '../models/Product_model';
 import User from '../models/User_model';
+import {ProductAttributes} from "../interfaces/product_interface"
 
 class ProductoService {
   async findAll() {
@@ -28,14 +29,7 @@ class ProductoService {
   }
 
 
-  async create(productData: {
-    nombre: string;
-    descripcion?: string;
-    categoria?: string;
-    precio: number;
-    cantidad_stock?: number;
-    proveedor?: string;
-  }) {
+  async create(productData: ProductAttributes) {
     try {
       const newProduct = await Producto.create(productData);
       return newProduct;
@@ -44,14 +38,7 @@ class ProductoService {
     }
   }
 
-  async update(id: number, productData: {
-    nombre?: string;
-    descripcion?: string;
-    categoria?: string;
-    precio?: number;
-    cantidad_stock?: number;
-    proveedor?: string;
-  }) {
+  async update(id: number, productData: ProductAttributes) {
     try {
       const product = await Producto.findByPk(id);
       if (!product) throw new Error('Producto no encontrado');
