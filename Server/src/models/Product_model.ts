@@ -1,6 +1,8 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../db/db"; 
+import {getSequelizeInstance} from "../db/db"; 
 import {ProductAttributes} from "../interfaces/product_interface"
+
+let sequelize=getSequelizeInstance()
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
   public id!: number;

@@ -1,7 +1,9 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../db/db"; 
+import {getSequelizeInstance} from "../db/db"; 
 import {user} from "../interfaces/user_interfaces"
 import Product from "./Product_model";
+
+let sequelize=getSequelizeInstance()
 
 class User extends Model <user> implements user{
   public id!:number
