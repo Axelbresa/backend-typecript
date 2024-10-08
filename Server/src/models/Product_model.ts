@@ -2,8 +2,6 @@ import { DataTypes, Model } from "sequelize";
 import {getSequelizeInstance} from "../db/db"; 
 import {ProductAttributes} from "../interfaces/product_interface"
 
-let sequelize=getSequelizeInstance()
-
 class Product extends Model<ProductAttributes> implements ProductAttributes {
   public id!: number;
   public nombre!: string;
@@ -43,7 +41,7 @@ Product.init({
 }, {
   modelName: "Product",
   timestamps: true,
-  sequelize,
+  sequelize:getSequelizeInstance(),
 });
 
 export default Product;

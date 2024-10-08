@@ -3,8 +3,6 @@ import {getSequelizeInstance} from "../db/db";
 import {user} from "../interfaces/user_interfaces"
 import Product from "./Product_model";
 
-let sequelize=getSequelizeInstance()
-
 class User extends Model <user> implements user{
   public id!:number
   public username!: string;
@@ -34,7 +32,7 @@ User.init({
 }, {
   modelName: "User",
   timestamps: true,
-  sequelize,
+  sequelize:getSequelizeInstance(),
 });
 
 // Relación uno a muchos
