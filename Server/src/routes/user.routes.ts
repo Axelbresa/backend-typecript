@@ -3,8 +3,6 @@ import {getUsers, loginUser, createUser, getUserById, updateUser, deleteUser, ct
 import {validateMiddleware} from "../middlewares/validacionSchema"
 import {userCreateValidations, userUpdateValidations} from "../schema/usuario_validaciones"
 
-
-
 const router = Router();
 
 router.get('/info', ctrlGetUserInfoByToken)

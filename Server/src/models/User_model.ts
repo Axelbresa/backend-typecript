@@ -12,6 +12,11 @@ class User extends Model <user> implements user{
 }
 
 User.init({
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true, // Asegúrate de que esté definido como clave primaria
+    autoIncrement: true, // Para que Sequelize lo autogenere
+  },
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -26,8 +31,8 @@ User.init({
     allowNull: false,
   },
   role: {
-    type: DataTypes.ENUM("cliente","admin"),
-    defaultValue: "cliente",
+    type: DataTypes.ENUM("user","admin"),
+    defaultValue: "user",
   }
 }, {
   modelName: "User",

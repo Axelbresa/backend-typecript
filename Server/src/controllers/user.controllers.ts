@@ -4,6 +4,21 @@ import { Request, Response } from 'express';
 import {hashPassword, comparePassword} from "../helper/bycript";
 import {generateToken, verifyToken} from "../helper/jsonWebToken"
 import UserService from '../services/userService';
+import { user } from '../interfaces/user_interfaces';
+// import {UserFactory} from "../factory/factory_user"
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const userData: Omit<user, 'id'> = req.body; // Extraer los datos del body
+    
+    // Usar el servicio para crear el usuario
+    const user = await UserService.create(userData);
+
+    return res.status(201).json({ message: 'Cuenta creada exitosamente', user });
+  } catch (err: any) {
+    return res.status(500).json({ message: 'Error al crear la cuenta', error: err.message });
+  }
+};
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -101,20 +116,6 @@ export const ctrlGetUserInfoByToken = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error interno del servidor", error: outerError.message });
   }
 };
-
-export const createUser = async (req: Request, res: Response) => {
-  try {
-    const userData = req.body;
-    // Hashear la contraseña antes de pasar los datos al modelo de usuario
-    const hashedPassword = await hashPassword(userData.password);
-    // Crear usuario con la contraseña hasheada
-    const user = await UserService.create({...userData, password: hashedPassword})
-    return res.status(201).json({ message: 'Cuenta creada', user });
-  } catch (err: any) {
-    return res.status(500).json({ message: 'Error al crear una cuenta', error: err.message });
-  }
-};
-
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
