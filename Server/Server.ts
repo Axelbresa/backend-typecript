@@ -3,7 +3,7 @@ import express, { Application} from "express";
 import cors from 'cors'
 import morgan from "morgan";
 import { PORT} from './src/config/conf'
-import { dbConnection } from "./src/db/db";
+import { dbConnection, syncDatabase } from "./src/db/db";
 import userRoutes from './src/routes/user.routes'
 import productoRoutes from './src/routes/producto.routes'
 
@@ -22,6 +22,7 @@ export class Server {
     }
     
     async dbConnect(){
+        await syncDatabase()
         await dbConnection()
     }
 

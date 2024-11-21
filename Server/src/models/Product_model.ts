@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../db/db"; 
+import {getSequelizeInstance} from "../db/db"; 
 import {ProductAttributes} from "../interfaces/product_interface"
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
@@ -41,7 +41,7 @@ Product.init({
 }, {
   modelName: "Product",
   timestamps: true,
-  sequelize,
+  sequelize:getSequelizeInstance(),
 });
 
 export default Product;

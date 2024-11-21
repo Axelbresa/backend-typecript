@@ -1,6 +1,8 @@
 // src/services/UserService.js
 import User from '../models/User_model';
 import {user} from "../interfaces/user_interfaces"
+import {UserFactory} from "../factory/factory_user"
+import {comparePassword, hashPassword} from "../helper/bycript"
 
 class UserService {
   async findAll() {
@@ -19,10 +21,18 @@ class UserService {
     }
   }
 
-  async create(userData: user) {
+  async create(userData: Omit<user, 'id'>) {
     try {
-      // Asignar la contraseña hasheada antes de crear el usuario
-      const newUser = await User.create(userData);
+      // Hashear la contraseña antes de crear el usuario
+      const hashedPassword = await hashPassword(userData.password);
+
+      console.log("userdata:", userData)
+      // Crear el usuario usando la fábrica (admin o cliente)
+      const newUser = await UserFactory.createUser(userData.role, {
+        ...userData,
+        password: hashedPassword, // Asignar la contraseña hasheada
+      });
+
       return newUser;
     } catch (err: any) {
       throw new Error('Error al crear usuario: ' + err.message);
